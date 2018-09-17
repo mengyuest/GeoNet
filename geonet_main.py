@@ -50,7 +50,12 @@ flags.DEFINE_string("output_dir",                 None,    "Test result output d
 flags.DEFINE_string("depth_test_split",        "eigen",    "KITTI depth split, eigen or stereo")
 flags.DEFINE_integer("pose_test_seq",                9,    "KITTI Odometry Sequence ID to test")
 
-
+##### adapt to tf-1.10 +py3 ref: https://github.com/tinghuiz/SfMLearner/pull/70/commits/ec3007d82a7d2205ec5e5ffb5fc99729d31faf88
+flags.DEFINE_integer("num_source",                   2, "Number of source images")
+flags.DEFINE_integer("num_scales",                   4, "Number of scaling points")
+flags.DEFINE_boolean("add_flownet",              False, "")
+flags.DEFINE_boolean("add_dispnet",              False, "")
+flags.DEFINE_boolean("add_posenet",              False, "")
 opt = flags.FLAGS
 
 def train():

@@ -39,7 +39,7 @@ def test_depth(opt):
                 idx = t + b
                 if idx >= len(test_files):
                     break
-                fh = open(test_files[idx], 'r')
+                fh = open(test_files[idx], 'rb') # adapt to py3 ref: https://github.com/python-pillow/Pillow/issues/1605
                 raw_im = pil.open(fh)
                 scaled_im = raw_im.resize((opt.img_width, opt.img_height), pil.ANTIALIAS)
                 inputs[b] = np.array(scaled_im)

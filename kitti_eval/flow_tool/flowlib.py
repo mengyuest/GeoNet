@@ -613,7 +613,7 @@ def read_flo_file(filename):
     data2d = None
 
     if 202021.25 != magic:
-        print 'Magic number incorrect. Invalid .flo file'
+        print('Magic number incorrect. Invalid .flo file') # adapt to py3
     else:
         w = np.fromfile(f, np.int32, count=1)
         h = np.fromfile(f, np.int32, count=1)
@@ -635,7 +635,7 @@ def read_png_file(flow_file):
     flow_direct = flow_object.asDirect()
     flow_data = list(flow_direct[2])
     (w, h) = flow_direct[3]['size']
-    print "Reading %d x %d flow file in .png format" % (h, w)
+    print("Reading %d x %d flow file in .png format" % (h, w)) # adapt to  py3
     flow = np.zeros((h, w, 3), dtype=np.float64)
     for i in range(len(flow_data)):
         flow[i, :, 0] = flow_data[i][0::3]

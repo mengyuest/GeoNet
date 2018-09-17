@@ -1,3 +1,12 @@
+# GeoNet for python3 and tensorflow
+1. Modified version of GeoNet from [https://github.com/yzcjtr/GeoNet](https://github.com/yzcjtr/GeoNet) to adapt to latest python and tensorflow environment
+2. Part of this code has been tested with Python3.6.6, Tensorflow 1.10 and CUDA9.0 on Ubuntu 16.04
+3. To preproc KITTI data, run `sh run_preproc_data.sh` based on `Data preparation`|`KITTI` section in the following.
+4. To test on depth, run `sh run_test_depth.sh` based on `Testing`|`Monocular Depth` section in the following.
+5. To eval on depth, run `sh run_eval_depth.sh` based on `Testing`|`Monocular Depth` section in the following. You should expect exact result in Table1 from paper[https://arxiv.org/pdf/1803.02276.pdf](https://arxiv.org/pdf/1803.02276.pdf)
+
+
+
 # GeoNet
 
 This is a Tensorflow implementation of our paper:

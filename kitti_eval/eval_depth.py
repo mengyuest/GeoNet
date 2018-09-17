@@ -44,7 +44,7 @@ def main():
     pred_depths = np.load(args.pred_file)
     args.test_file_list = './data/kitti/test_files_%s.txt' % args.split
 
-    print 'evaluating ' + args.pred_file + '...'
+    print('evaluating ' + args.pred_file + '...') # adapt to py3
 
     if args.split == 'eigen':
         test_files = read_text_lines(args.test_file_list)

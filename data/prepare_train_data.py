@@ -17,7 +17,7 @@ parser.add_argument("--img_height",    type=int, default=128,   help="image heig
 parser.add_argument("--img_width",     type=int, default=416,   help="image width")
 parser.add_argument("--num_threads",   type=int, default=4,     help="number of threads to use")
 parser.add_argument("--remove_static", help="remove static frames from kitti raw data", action='store_true')
-args = parser.parse_args()
+args0 = parser.parse_args()
 
 def concat_image_seq(seq):
     for i, im in enumerate(seq):
@@ -39,7 +39,7 @@ def dump_example(n):
     fy = intrinsics[1, 1]
     cx = intrinsics[0, 2]
     cy = intrinsics[1, 2]
-    dump_dir = os.path.join(args.dump_root, example['folder_name'])
+    dump_dir = os.path.join(args0.dump_root, example['folder_name'])
 
     try: 
         os.makedirs(dump_dir)
@@ -53,53 +53,53 @@ def dump_example(n):
         f.write('%f,0.,%f,0.,%f,%f,0.,0.,1.' % (fx, cx, fy, cy))
 
 def main():
-    if not os.path.exists(args.dump_root):
-        os.makedirs(args.dump_root)
+    if not os.path.exists(args0.dump_root):
+        os.makedirs(args0.dump_root)
 
     global data_loader
-    if args.dataset_name == 'kitti_odom':
+    if args0.dataset_name == 'kitti_odom':
         from kitti.kitti_odom_loader import kitti_odom_loader
-        data_loader = kitti_odom_loader(args.dataset_dir,
-                                        img_height=args.img_height,
-                                        img_width=args.img_width,
-                                        seq_length=args.seq_length)
+        data_loader = kitti_odom_loader(args0.dataset_dir,
+                                        img_height=args0.img_height,
+                                        img_width=args0.img_width,
+                                        seq_length=args0.seq_length)
 
-    if args.dataset_name == 'kitti_raw_eigen':
+    if args0.dataset_name == 'kitti_raw_eigen':
         from kitti.kitti_raw_loader import kitti_raw_loader
-        data_loader = kitti_raw_loader(args.dataset_dir,
+        data_loader = kitti_raw_loader(args0.dataset_dir,
                                        split='eigen',
-                                       img_height=args.img_height,
-                                       img_width=args.img_width,
-                                       seq_length=args.seq_length,
-                                       remove_static=args.remove_static)
+                                       img_height=args0.img_height,
+                                       img_width=args0.img_width,
+                                       seq_length=args0.seq_length,
+                                       remove_static=args0.remove_static)
 
-    if args.dataset_name == 'kitti_raw_stereo':
+    if args0.dataset_name == 'kitti_raw_stereo':
         from kitti.kitti_raw_loader import kitti_raw_loader
-        data_loader = kitti_raw_loader(args.dataset_dir,
+        data_loader = kitti_raw_loader(args0.dataset_dir,
                                        split='stereo',
-                                       img_height=args.img_height,
-                                       img_width=args.img_width,
-                                       seq_length=args.seq_length,
-                                       remove_static=args.remove_static)
+                                       img_height=args0.img_height,
+                                       img_width=args0.img_width,
+                                       seq_length=args0.seq_length,
+                                       remove_static=args0.remove_static)
 
-    if args.dataset_name == 'cityscapes':
+    if args0.dataset_name == 'cityscapes':
         from cityscapes.cityscapes_loader import cityscapes_loader
-        data_loader = cityscapes_loader(args.dataset_dir,
-                                        img_height=args.img_height,
-                                        img_width=args.img_width,
-                                        seq_length=args.seq_length)
+        data_loader = cityscapes_loader(args0.dataset_dir,
+                                        img_height=args0.img_height,
+                                        img_width=args0.img_width,
+                                        seq_length=args0.seq_length)
 
-    Parallel(n_jobs=args.num_threads)(delayed(dump_example)(n) for n in range(data_loader.num_train))
+    Parallel(n_jobs=args0.num_threads)(delayed(dump_example)(n) for n in range(data_loader.num_train))
 
     # Split into train/val
     np.random.seed(8964)
-    subfolders = os.listdir(args.dump_root)
-    with open(os.path.join(args.dump_root, 'train.txt'), 'w') as tf:
-        with open(os.path.join(args.dump_root, 'val.txt'), 'w') as vf:
+    subfolders = os.listdir(args0.dump_root)
+    with open(os.path.join(args0.dump_root, 'train.txt'), 'w') as tf:
+        with open(os.path.join(args0.dump_root, 'val.txt'), 'w') as vf:
             for s in subfolders:
-                if not os.path.isdir(args.dump_root + '/%s' % s):
+                if not os.path.isdir(args0.dump_root + '/%s' % s):
                     continue
-                imfiles = glob(os.path.join(args.dump_root, s, '*.jpg'))
+                imfiles = glob(os.path.join(args0.dump_root, s, '*.jpg'))
                 frame_ids = [os.path.basename(fi).split('.')[0] for fi in imfiles]
                 for frame in frame_ids:
                     if np.random.random() < 0.1:
